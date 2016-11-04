@@ -4,7 +4,7 @@ library(igraph)
 library(Matrix)
 
 relations = read.table('data/com-amazon.ungraph.txt')
-temp <- max(count.fields('data/com-amazon.top5000.cmty.txt'))
+temp = max(count.fields('data/com-amazon.top5000.cmty.txt'))
 community.top5000 = read.table('data/com-amazon.top5000.cmty.txt', fill = T, col.names = 1:temp)
 community.top5000.sizes = rowSums(!is.na(community.top5000))
 
