@@ -22,9 +22,6 @@ relations = relations[(relations$V1 %in% vertices) & (relations$V2 %in% vertices
 # 80:20 split
 train.index = sample(seq_len(vertices.count), size = round(vertices.count*.8))
 vertices.is.train = seq_len(vertices.count) %in% train.index
-vertices.train = vertices[vertices.is.train]
-
-vertices.init = rep(-1, length(vertices))
 
 # as communities are overlapping, label vertices with the largest community it is in
 filter = apply(community.top5000, 1, function (c) vertices %in% c) # are vertices in each community?
@@ -32,6 +29,7 @@ labels = apply(filter, 1, function (f) { # filter of communities that contains t
         max.which = which.max(community.top5000.sizes[f])[1]
         which(f)[max.which] # index of largsest community that contains
 })
+vertices.init = rep(-1, length(vertices))
 vertices.init[vertices.is.train] = labels[vertices.is.train] # for training
 actual = labels[!vertices.is.train] # for prediction
 
