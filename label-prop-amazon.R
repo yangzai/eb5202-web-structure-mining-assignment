@@ -36,7 +36,7 @@ vertices.init[vertices.is.train] = labels[vertices.is.train] # for training
 actual = labels[!vertices.is.train] # for prediction
 
 g = graph.data.frame(relations, directed = F) # make graph
-g = permute(g, invPerm(order(as.numeric(V(g)$name)))) # sort vertices
+g = permute(g, invPerm(order(as.numeric(V(g)$name)))) # sort vertices to match external indexing
 
 # perform label propagation
 # fixed was experimented with fixed = vertices.is.train & vertices.is.single (accuracy:  0.9970087)
