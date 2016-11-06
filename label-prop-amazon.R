@@ -4,8 +4,9 @@ library(igraph)
 library(Matrix)
 
 relations = read.table('data/com-amazon.ungraph.txt')
-temp = max(count.fields('data/com-amazon.top5000.cmty.txt'))
-community.top5000 = read.table('data/com-amazon.top5000.cmty.txt', fill = T, col.names = 1:temp)
+community.top5000.path = 'data/com-amazon.top5000.cmty.txt'
+temp = max(count.fields(community.top5000.path))
+community.top5000 = read.table(community.top5000.path, fill = T, col.names = 1:temp)
 community.top5000.sizes = rowSums(!is.na(community.top5000))
 
 flattened = na.omit(unlist(community.top5000))
@@ -20,8 +21,9 @@ vertices.is.single = flattened.table == 1 # unused experiment
 relations = relations[(relations$V1 %in% vertices) & (relations$V2 %in% vertices),]
 
 # 80:20 split
-train.index = sample(seq_len(vertices.count), size = round(vertices.count*.8))
-vertices.is.train = seq_len(vertices.count) %in% train.index
+vertices.count.seq = seq_len(vertices.count)
+train.index = sample(vertices.count.seq, size = round(vertices.count*.8))
+vertices.is.train = vertices.count.seq %in% train.index
 
 # as communities are overlapping, label vertices with the largest community it is in
 filter = apply(community.top5000, 1, function (c) vertices %in% c) # are vertices in each community?
